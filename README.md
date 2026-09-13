@@ -23,6 +23,8 @@ Two CC8.1 rows are intentional. One control, two artifacts: the workflow that fa
 
 A control id is a filing label. A filled row does not mean the criterion is met.
 
+On this repository, `validate` is required to merge into `main`. Repository admins can bypass the ruleset to ship a reference fix. The same job runs on every push and pull request.
+
 ## What this is not
 
 - Not a client evidence binder and not a vault of customer artifacts.
