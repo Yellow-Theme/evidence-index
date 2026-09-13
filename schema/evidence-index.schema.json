@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yellow-theme/evidence-index/blob/main/schema/evidence-index.schema.json",
+  "title": "Evidence index",
+  "description": "One synthetic row maps a control id to an enforcing artifact, reproduce steps, an export, and a role. Not a client engagement and not an audit conclusion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["synthetic", "disclaimer", "tenant", "company", "rows"],
+  "properties": {
+    "synthetic": { "const": true },
+    "disclaimer": {
+      "const": "Synthetic reference. Not a client engagement and not an audit conclusion."
+    },
+    "tenant": { "type": "string", "minLength": 1 },
+    "company": { "type": "string", "minLength": 1 },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/row" }
+    }
+  },
+  "$defs": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["control_id", "enforcing_artifact", "reproduce", "evidence_export", "owner"],
+      "properties": {
+        "control_id": {
+          "type": "string",
+          "pattern": "^CC[0-9]+(\\.[0-9]+)?$",
+          "description": "Filing label. A row does not mean the criterion is met."
+        },
+        "enforcing_artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repo", "path"],
+          "properties": {
+            "repo": { "type": "string", "format": "uri", "minLength": 1 },
+            "path": { "type": "string", "minLength": 1 }
+          }
+        },
+        "reproduce": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence_export": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["format", "artifact", "stub"],
+          "properties": {
+            "format": { "type": "string", "minLength": 1 },
+            "artifact": { "type": "string", "minLength": 1 },
+            "stub": { "type": "string", "minLength": 1 }
+          }
+        },
+        "owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["role"],
+          "properties": {
+            "role": {
+              "type": "string",
+              "minLength": 1,
+              "description": "A role, not a person."
+            }
+          }
+        }
+      }
+    }
+  }
+}

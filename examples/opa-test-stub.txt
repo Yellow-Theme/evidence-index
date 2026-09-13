@@ -1,0 +1,4 @@
+synthetic: true
+format: text
+note: Placeholder export. Not a captured opa test run and not an audit conclusion.
+reproduce: opa test . -v

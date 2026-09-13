@@ -1,0 +1,6 @@
+{
+  "synthetic": true,
+  "run_url": "https://github.com/yellow-theme/ci-security-gates/actions/runs/0",
+  "artifact": "semgrep-sarif",
+  "note": "Placeholder run URL. Not a real workflow run and not an audit conclusion."
+}

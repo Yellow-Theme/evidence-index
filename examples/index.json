@@ -1,0 +1,81 @@
+{
+  "synthetic": true,
+  "disclaimer": "Synthetic reference. Not a client engagement and not an audit conclusion.",
+  "tenant": "sample-tenant",
+  "company": "Northline Sample Co.",
+  "rows": [
+    {
+      "control_id": "CC8.1",
+      "enforcing_artifact": {
+        "repo": "https://github.com/yellow-theme/ci-security-gates",
+        "path": ".github/workflows/security-gates.yml"
+      },
+      "reproduce": [
+        "Open .github/workflows/security-gates.yml in ci-security-gates.",
+        "Confirm the sast job runs semgrep scan --config p/ci on app/ and fails the job on findings.",
+        "Open the workflow run URL for the change under review.",
+        "Download the semgrep-sarif artifact. Do not accept a screenshot in place of the run."
+      ],
+      "evidence_export": {
+        "format": "sarif",
+        "artifact": "semgrep-sarif",
+        "stub": "examples/export-stub.json"
+      },
+      "owner": { "role": "engineering" }
+    },
+    {
+      "control_id": "CC8.1",
+      "enforcing_artifact": {
+        "repo": "https://github.com/yellow-theme/policy-as-code",
+        "path": "policies/change/exception.rego"
+      },
+      "reproduce": [
+        "Open policies/change/exception.rego in policy-as-code.",
+        "Run opa test policies/change -v.",
+        "Confirm a missing reason and an expired expiry each produce a deny message that names CC8.1 exception."
+      ],
+      "evidence_export": {
+        "format": "text",
+        "artifact": "opa-test-output",
+        "stub": "examples/opa-test-stub.txt"
+      },
+      "owner": { "role": "engineering" }
+    },
+    {
+      "control_id": "CC6.3",
+      "enforcing_artifact": {
+        "repo": "https://github.com/yellow-theme/policy-as-code",
+        "path": "policies/iam/wildcard.rego"
+      },
+      "reproduce": [
+        "Open policies/iam/wildcard.rego in policy-as-code.",
+        "Run opa test policies/iam -v.",
+        "Confirm a statement with Action or Resource of * produces a deny message that names CC6.3 access."
+      ],
+      "evidence_export": {
+        "format": "text",
+        "artifact": "opa-test-output",
+        "stub": "examples/opa-test-stub.txt"
+      },
+      "owner": { "role": "security engineering" }
+    },
+    {
+      "control_id": "CC6.1",
+      "enforcing_artifact": {
+        "repo": "https://github.com/yellow-theme/policy-as-code",
+        "path": "policies/storage/encryption.rego"
+      },
+      "reproduce": [
+        "Open policies/storage/encryption.rego in policy-as-code.",
+        "Run opa test policies/storage -v.",
+        "Confirm an object that is not aws:kms produces a deny message that names CC6.1 encryption."
+      ],
+      "evidence_export": {
+        "format": "text",
+        "artifact": "opa-test-output",
+        "stub": "examples/opa-test-stub.txt"
+      },
+      "owner": { "role": "security engineering" }
+    }
+  ]
+}
