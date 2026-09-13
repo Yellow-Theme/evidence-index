@@ -1,0 +1,39 @@
+name: validate
+
+# Synthetic reference. Not a client workflow and not an audit conclusion.
+#
+# Assessor: this file is the enforcing artifact. A failed job blocks merge
+# only after this check is required in branch protection. Evidence is the
+# run URL plus the job summary, not a screenshot.
+
+on: [pull_request, push]
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate
+    # control: evidence index shape / assessor navigation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: make validate
+        run: |
+          set -euo pipefail
+          make validate
+
+      - name: Assessor note
+        if: always()
+        run: |
+          {
+            echo "## Evidence index — assessor navigation"
+            echo "Command: \`make validate\` on \`examples/index.json\` against the schema."
+            echo "A required check blocks merge. Evidence is this run URL, not a screenshot."
+          } >> "$GITHUB_STEP_SUMMARY"
